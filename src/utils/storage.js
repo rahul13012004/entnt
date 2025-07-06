@@ -13,6 +13,7 @@ export const mockPatients = [
   title: "Toothache",
   description: "Upper molar pain",
   comments: "Sensitive to cold",
+
   appointmentDate: "2025-07-01T10:00:00",
   treatment: "Cavity filling",
   cost: 80,

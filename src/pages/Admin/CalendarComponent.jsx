@@ -1,88 +1,95 @@
-// src/pages/Admin/Calendar.jsx
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { useState, useEffect } from "react";
-
-// Localizer setup
 const localizer = momentLocalizer(moment);
-
-// Get calendar events from incidents
 const getEventsFromIncidents = (incidents) => {
-  const events = [];
-
-  incidents.forEach((incident) => {
-    const baseTitle = `${incident.title} - ${incident.status}`;
-    const colorStyle = {
+  return incidents.flatMap((incident) => {
+    const baseStyle = {
       backgroundColor:
-        incident.status?.toLowerCase() === "completed" ? "#D1FAE5" : "#FEF3C7",
+        incident.status?.toLowerCase() === "completed" ? "#D1FAE5" : "#FEF3C7", // Light green or yellow
       borderLeft: `5px solid ${
         incident.status?.toLowerCase() === "completed" ? "#10B981" : "#F59E0B"
       }`,
+      padding: "6px",
+      fontSize: "0.95rem",
+      color: "#1F2937", 
+      fontWeight: "500",
+      lineHeight: "1.4",
     };
+    
+    const events = [];
 
-    // Appointment event
-    if (incident.appointmentDate) {
+    if (incident.appointmentDate && incident.appointmentDate !== "N/A") {
       events.push({
         id: incident.id + "-appt",
-        title: baseTitle + " (Appointment)",
+        title: ` ${incident.title} (${incident.status})`,
         start: new Date(incident.appointmentDate),
-        end: new Date(
-          new Date(incident.appointmentDate).getTime() + 60 * 60 * 1000
-        ),
-        allDay: false,
+        end: new Date(new Date(incident.appointmentDate).getTime() + 60 * 60 * 1000),
         ...incident,
-        style: colorStyle,
+        style: baseStyle,
       });
     }
 
-    // Next appointment (if exists)
+    
     if (incident.nextDate && incident.nextDate !== "N/A") {
       events.push({
-        id: incident.id + "-next",
-        title: baseTitle + " (Follow-up)",
+        id: incident.id + "-followup",
+        title: ` Follow-up: ${incident.title}`,
         start: new Date(incident.nextDate),
         end: new Date(new Date(incident.nextDate).getTime() + 60 * 60 * 1000),
-        allDay: false,
         ...incident,
-        style: colorStyle,
+        style: baseStyle,
       });
     }
-  });
 
-  return events;
+    return events;
+  });
 };
 
 export default function AdminCalendar() {
   const [events, setEvents] = useState([]);
-  const [selectedEvent, setSelectedEvent] = useState(null);
+  const [calendarView, setCalendarView] = useState("week");
+  const [calendarDate, setCalendarDate] = useState(new Date());
 
   useEffect(() => {
-    const incidents = JSON.parse(localStorage.getItem("incidents")) || [];
-    const formattedEvents = getEventsFromIncidents(incidents);
-    setEvents(formattedEvents);
+    const syncEvents = () => {
+      const incidents = JSON.parse(localStorage.getItem("incidents")) || [];
+      const formattedEvents = getEventsFromIncidents(incidents);
+      setEvents(formattedEvents);
+    };
+
+    syncEvents();
+    const interval = setInterval(syncEvents, 1000);
+    return () => clearInterval(interval);
   }, []);
 
   const handleEventClick = (event) => {
-    setSelectedEvent(event);
     alert(
-      `🦷 ${event.title}\nPatient ID: ${event.patientId}\nTreatment: ${event.treatment}\nDetails: ${event.description}`
+      `${event.title}
+    Patient ID: ${event.patientId}
+    Treatment: ${event.treatment}
+    Status: ${event.status}
+    Details: ${event.description}`
     );
   };
 
   const eventPropGetter = (event) => {
-    return {
-      style: event.style || {},
-    };
+    return { style: event.style };
   };
 
   return (
     <div style={{ height: "calc(100vh - 100px)", padding: "20px" }}>
-      <h1 className="text-2xl font-bold mb-4">🗓️ Calendar – Admin Schedule</h1>
+      <h1 className="text-2xl font-bold mb-4 text-center">Calendar – Admin Schedule</h1>
+
+
       <Calendar
         localizer={localizer}
         events={events}
-        defaultView="week"
+        date={calendarDate}
+        view={calendarView}
+        onView={(view) => setCalendarView(view)}
+        onNavigate={(date) => setCalendarDate(date)}
         views={["month", "week", "day"]}
         step={30}
         timeslots={2}
@@ -95,7 +102,7 @@ export default function AdminCalendar() {
           borderRadius: "8px",
           boxShadow: "0 0 10px rgba(0,0,0,0.1)",
         }}
-        scrollToTime={new Date(2025, 6, 2, 9, 0)} // 9AM scroll
+        scrollToTime={new Date(2025, 6, 2, 9, 0)}
       />
     </div>
   );

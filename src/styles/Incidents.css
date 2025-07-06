@@ -1,0 +1,111 @@
+.incidents .incidentHolder {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 25px;
+    position: absolute;
+
+    &>div {
+        min-width: 30%;
+        max-width: 30%;
+        max-height: 250px;
+        min-height: 250px;
+        border-radius: 15px;
+        box-shadow: 0 0 10px black;
+        padding: 8px;
+        overflow-y: scroll;
+        background-color: white;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    &>div:hover {
+        background-color: #e0f2ff;
+        
+        transform: scale(1.02);
+    
+    }
+
+    &>div::-webkit-scrollbar {
+        display: none;
+    }
+}
+.incidents{
+    padding: 12px;
+}
+.incidents .incidentHolder button{
+    padding: 8px 20px;
+    background: skyblue;
+    border: none;
+    border-radius: 5px;
+    margin-left: 8px;
+    margin-right: 8px;
+    position: fixed;
+    bottom: 0;
+    position: relative;
+}
+.incidents form{
+    display: flex;
+    margin: 12px;
+    gap: 15px;
+}
+
+.preview-modal {
+    position: fixed;
+    top: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    background: white;
+    border: 2px solid #ccc;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 0 0 1px #3b82f6;
+    text-align: center;
+}
+
+.preview-modal img {
+    max-width: 300px;
+    max-height: 300px;
+    margin: 10px auto;
+}
+
+.carousel-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.carousel-controls button {
+    font-size: 20px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.close-btn,
+.delete-btn {
+    margin-top: 10px;
+    background: #f87171;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.incident-heading {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: #1e293b;
+}
+.incidents form input,
+.incidents form select {
+     padding: 0.5rem 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    width: 100%;
+    box-sizing: border-box; 
+}

@@ -1,7 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { mockPatients } from "../../utils/storage";
+import Patients from "../Patients";
+import "../../styles/PatientManagement.css";
 
 const PatientManagement = () => {
+  const formRef = useRef(null);
+
   const [patients, setPatients] = useState([]);
   const [formData, setFormData] = useState({
     id: "",
@@ -14,16 +18,13 @@ const PatientManagement = () => {
 
   useEffect(() => {
     const stored = JSON.parse(localStorage.getItem("patients")) || [];
-
-    // Merge default mock patients only once
     const existingIds = new Set(stored.map(p => p.id));
     const withDefaults = [
       ...stored,
       ...mockPatients
         .filter(p => !existingIds.has(p.id))
-        .map(p => ({ ...p, default: true })), // Tag as default
+        .map(p => ({ ...p, default: true })),
     ];
-
     setPatients(withDefaults);
     localStorage.setItem("patients", JSON.stringify(withDefaults));
   }, []);
@@ -57,6 +58,7 @@ const PatientManagement = () => {
   const handleEdit = (patient) => {
     setFormData(patient);
     setIsEditing(true);
+    formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   const handleDelete = (id) => {
@@ -76,69 +78,90 @@ const PatientManagement = () => {
   };
 
   return (
-    <div className="p-4 border rounded bg-white">
-      <h2 className="text-xl font-bold mb-4">Patient Management</h2>
-      <form onSubmit={handleSubmit} className="space-y-2 mb-6">
-        <input
-          type="text"
-          name="name"
-          placeholder="Name"
-          value={formData.name}
-          onChange={handleChange}
-          className="border p-2 w-full"
-          required
-        />
-        <input
-          type="date"
-          name="dob"
-          value={formData.dob}
-          onChange={handleChange}
-          className="border p-2 w-full"
-          required
-        />
-        <input
-          type="tel"
-          name="contact"
-          placeholder="Contact eg +919876543210"
-          value={formData.contact}
-          onChange={(e) => {
-            const cleaned = e.target.value.replace(/[^\d+]/g, '');
-            if (/^\+?\d{0,15}$/.test(cleaned)) {
-              handleChange({ target: { name: 'contact', value: cleaned } });
-            }
-          }}
-          className="border p-2 w-full"
-          required
-        />
-        <input
-          type="text"
-          name="healthInfo"
-          placeholder="Health Info"
-          value={formData.healthInfo}
-          onChange={handleChange}
-          className="border p-2 w-full"
-        />
-        <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded">
-          {isEditing ? "Update Patient" : "Add Patient"}
-        </button>
-      </form>
+    <div className="patient-management-container">
+      <div className="patient-form-card">
+        <h2 className="patient-form-title">Patient Management</h2>
 
-      <ul className="space-y-3">
-        {patients.map((p) => (
-          <li key={p.id} className="p-3 border rounded">
-            <div><strong>{p.name}</strong> {p.default && <span className="text-xs text-gray-500">(default)</span>}</div>
-            <div>DOB: {p.dob}</div>
-            <div>Contact: {p.contact}</div>
-            <div>Health Info: {p.healthInfo}</div>
-            <div className="mt-2 space-x-2">
-              <button onClick={() => handleEdit(p)} className="text-blue-600 underline">Edit</button>
-              {!p.default && (
-                <button onClick={() => handleDelete(p.id)} className="text-red-600 underline">Delete</button>
-              )}
-            </div>
-          </li>
-        ))}
-      </ul>
+        <form onSubmit={handleSubmit} ref={formRef} className="patient-form">
+          <input
+            type="text"
+            name="name"
+            placeholder="Name"
+            value={formData.name}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="date"
+            name="dob"
+            value={formData.dob}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="tel"
+            name="contact"
+            placeholder="Contact eg +919876543210"
+            value={formData.contact}
+            onChange={(e) => {
+              const cleaned = e.target.value.replace(/[^\d+]/g, "");
+              if (/^\+?\d{0,15}$/.test(cleaned)) {
+                handleChange({ target: { name: "contact", value: cleaned } });
+              }
+            }}
+            required
+          />
+          <input
+            type="text"
+            name="healthInfo"
+            placeholder="Health Info"
+            value={formData.healthInfo}
+            onChange={handleChange}
+          />
+
+<div className="form-actions">
+  <button type="submit" className="action-button">
+    {isEditing ? "Update" : "Add Patient"}
+  </button>
+
+  {isEditing && (
+    <button
+      type="button"
+      className="action-button"
+      onClick={() => {
+        setFormData({ id: "", name: "", dob: "", contact: "", healthInfo: "" });
+        setIsEditing(false);
+      }}
+    >
+      Cancel
+    </button>
+  )}
+</div>
+ </form>
+
+        <ul className="patient-list">
+          {patients.map((p) => (
+            <li key={p.id} className="patient-item">
+              <div>
+                <strong>{p.name}</strong>
+                {p.default && <span className="patient-default-label">(default)</span>}
+              </div>
+              <div className="patient-meta"><strong>DOB</strong>: {p.dob}</div>
+              <div className="patient-meta"><strong>Contact</strong>: {p.contact}</div>
+              <div className="patient-meta"><strong>Health Info</strong>: {p.healthInfo}</div>
+              <div className="patient-actions">
+                <button className="edit" onClick={() => handleEdit(p)}>Edit</button>
+                {!p.default && (
+                  <button className="delete" onClick={() => handleDelete(p.id)}>Delete</button>
+                )}
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      
+  
     </div>
   );
 };

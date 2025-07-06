@@ -11,7 +11,6 @@ export default function Patients() {
             {patient.name} - {patient.contact}
           </li>
         ))}
-        <div><PatientPortal /></div>
       </ul>
     </div>
   );
