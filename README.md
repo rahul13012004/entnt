@@ -1,70 +1,168 @@
-# Getting Started with Create React App
+# 🦷 ENTNT Dental Center Management (React)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A responsive dental center management system built with **React**, designed to simulate patient and incident tracking for both **Admin (Dentist)** and **Patients** — using **localStorage only**, with no backend.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## 🌐 Live Demo  
+🔗 [Visit App](https://entnt-dental-app.netlify.app/login)  
+🔗 [GitHub Repo](https://github.com/rahul13012004/entnt)
 
-### `npm start`
+---
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## 🛠️ Features
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### 👨‍⚕️ Admin (Dentist)
+- ✅ **Login Authentication** (Hardcoded credentials)
+- ✅ **Manage Patients**
+  - Add, Edit, Delete
+- ✅ **Manage Appointments / Incidents**
+  - Title, Description, Comments, Appointment Date
+  - Post-visit: Cost, Treatment, Status, Next Appointment, File Uploads
+- ✅ **Dashboard**
+  - Upcoming Appointments
+  - Top Patients
+  - Treatment Stats
+  - Total Revenue
+- ✅ **Calendar View**
+  - Color-coded appointments
+  - Follow-up highlights
+- ✅ **File Preview**
+  - File carousel for uploaded images or documents
 
-### `npm test`
+### 🧑‍🦱 Patient
+- ✅ Login to view **own profile** and **appointments**
+- ✅ See **cost**, **status**, and **treatment** details
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## 🔐 Login Credentials
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+| Role     | Email            | Password   |
+|----------|------------------|------------|
+| Admin    | admin@entnt.in   | admin123   |
+| Patient  | john@entnt.in    | patient123 |
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+---
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 📦 Tech Stack
 
-### `npm run eject`
+- ✅ **React** (Functional Components)
+- ✅ **React Router DOM** – Routing & navigation
+- ✅ **Context API** – Global auth state
+- ✅ **LocalStorage** – Persistent data storage
+- ✅ **React Big Calendar** – Calendar view
+- ✅ **Custom CSS + Tailwind utilities** – Styling
+- ✅ **Fully Responsive Design**
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+---
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 📂 Project Structure
+ENTNT-DENTAL-DASHBOARD/
+├── public/
+├── src/
+│ ├── assets/
+│ ├── context/
+│ ├── data/
+│ ├── pages/
+│ │ ├── Admin/
+│ │ │ ├── CalendarComponent.jsx
+│ │ │ ├── DashBoard.jsx
+│ │ │ ├── FilePreview.jsx
+│ │ │ ├── Incidents.jsx
+│ │ │ ├── PatientManagement.jsx
+│ │ │ ├── Patients.jsx
+│ │ ├── Login.jsx
+│ │ ├── PatientPortal.jsx
+│ ├── styles/
+│ │ ├── *.css
+│ │ ├── LoginPic.jpeg
+│ ├── utils/
+│ │ └── storage.js
+│ ├── App.js / App.css / index.js / index.css
+│ └── setupTests.js / reportWebVitals.js
+├── .gitignore
+├── netlify.toml
+├── package.json
+└── README.md
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## 🚀 Getting Started Locally
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+1. **Create the App Folder**
+   ```bash
+   npx create-react-app entnt-dental-dashboard
+   cd entnt-dental-dashboard
+2. **Install Dependencies**
+   ```bash
+    npm install
+    Start the App
+3. **Start the App**
+     ```bash
+     npm start
+Runs on http://localhost:3000
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+**🌍 Deployment (Netlify)**
+Hosted on Netlify
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Handles routing with a netlify.toml file:
+    [[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
 
-### Code Splitting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-### Analyzing the Bundle Size
+  
+📌 **Technical Highlights**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-### Making a Progressive Web App
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+💾 Simulated backend using localStorage
 
-### Advanced Configuration
+🔐 Role-based Routing via React Router + Context
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+🖼️ Base64 File Uploads stored in localStorage
 
-### Deployment
+📱 Mobile-Responsive Design with Flexbox & Grid
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
 
-### `npm run build` fails to minify
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+
+
+🧪 **Challenges Faced**
+
+
+🔄 File preview + deletion sync with localStorage
+
+👥 Role-based UI rendering and access
+
+📆 Calendar transitions and appointment tracking
+
+🎯 Smooth UX with modals, scrolls, and feedback
+
+
+
+
+
+
+✅ **Assignment Completion Checklist**
+
+
+Feature	Status
+Role-based Login	✅
+CRUD for Patients and Incidents	✅
+File Upload with Preview/Deletion	✅
+Calendar View for Appointments	✅
+Responsive Dashboard (Admin/Patient)	✅
+Data Persistence via LocalStorage	✅
+Deployed & Published on GitHub	✅
+
+
+
+
+
+
+
