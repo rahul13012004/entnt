@@ -13,12 +13,16 @@ export default function Login() {
     const user = mockUsers.find(u => u.email === email && u.password === password);
     if (user) {
       localStorage.setItem("currentUser", JSON.stringify(user));
+  
+      
+      window.dispatchEvent(new Event("storage"));
+  
       navigate(user.role === "Admin" ? "/dashboard" : "/patients");
     } else {
       alert("Invalid credentials");
     }
   };
-
+  
   return (
     <div className="login-fullscreen">
       <img src={loginPic} alt="Login Background" className="login-bg" />

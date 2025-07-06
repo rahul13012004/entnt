@@ -1,5 +1,4 @@
 import { mockPatients } from "../utils/storage";
-import PatientPortal from "./PatientPortal";
 
 export default function Patients() {
   return (

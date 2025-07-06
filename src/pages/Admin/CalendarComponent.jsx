@@ -6,16 +6,23 @@ const localizer = momentLocalizer(moment);
 const getEventsFromIncidents = (incidents) => {
   return incidents.flatMap((incident) => {
     const baseStyle = {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      height: "100%",
       backgroundColor:
-        incident.status?.toLowerCase() === "completed" ? "#D1FAE5" : "#FEF3C7", // Light green or yellow
+        incident.status?.toLowerCase() === "completed" ? "#D1FAE5" : "#FEF3C7",
       borderLeft: `5px solid ${
         incident.status?.toLowerCase() === "completed" ? "#10B981" : "#F59E0B"
       }`,
-      padding: "6px",
-      fontSize: "0.95rem",
-      color: "#1F2937", 
+      padding: "4px 6px",
+      fontSize: "0.85rem",
+      color: "#1F2937",
       fontWeight: "500",
-      lineHeight: "1.4",
+      lineHeight: "1.3",
+      whiteSpace: "normal",
+      overflow: "hidden",
+      textAlign: "center",
     };
     
     const events = [];

@@ -83,18 +83,20 @@ const [currentPreviewIndex, setCurrentPreviewIndex] = useState(0);
 
   const today = new Date();
 
-  const upcomingAppointments = useMemo(() => {
+  /*const upcomingAppointments = useMemo(() => {
     return incidents.filter((i) => {
       const appt = new Date(i.appointmentDate);
       const next = i.nextDate !== "N/A" ? new Date(i.nextDate) : null;
       return appt > today || (next && next > today);
     });
-  }, [incidents]);
+  }, [incidents]);*/
 
   const patientIncidents = useMemo(() => {
-    return incidents.filter((i) => i.patientId === selectedPatientId);
+    return incidents
+      .filter((i) => i.patientId === selectedPatientId)
+      .sort((a, b) => new Date(a.appointmentDate) - new Date(b.appointmentDate));
   }, [incidents, selectedPatientId]);
-
+  
   const resetForm = () => setFormData({
     id: "",
     title: "",
@@ -169,7 +171,7 @@ const [currentPreviewIndex, setCurrentPreviewIndex] = useState(0);
     setSelectedPatientId(incident.patientId);
     setIsEditing(true);
   
-    // Show preview for existing files if any
+    
     if (incident.files && incident.files.length > 0) {
       setPreviewFiles(incident.files);
       setCurrentPreviewIndex(0);
@@ -227,7 +229,7 @@ const [currentPreviewIndex, setCurrentPreviewIndex] = useState(0);
     const updatedFiles = [...previewFiles];
     updatedFiles.splice(indexToDelete, 1);
   
-    // Update preview files and current index
+    
     setPreviewFiles(updatedFiles);
     setCurrentPreviewIndex((prev) =>
       prev >= updatedFiles.length ? updatedFiles.length - 1 : prev

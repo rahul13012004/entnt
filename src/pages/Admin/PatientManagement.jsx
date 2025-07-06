@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from "react";
 import { mockPatients } from "../../utils/storage";
-import Patients from "../Patients";
 import "../../styles/PatientManagement.css";
 
 const PatientManagement = () => {
