@@ -81,7 +81,7 @@ const [currentPreviewIndex, setCurrentPreviewIndex] = useState(0);
     localStorage.setItem("incidents", JSON.stringify(updated));
   };
 
-  const today = new Date();
+  // const today = new Date();
 
   /*const upcomingAppointments = useMemo(() => {
     return incidents.filter((i) => {
@@ -326,7 +326,7 @@ const [currentPreviewIndex, setCurrentPreviewIndex] = useState(0);
 
       <div className="space-y-3 incidentHolder">
         {patientIncidents.map((incident) => {
-          const isScheduled = incident.nextDate !== "N/A" && new Date(incident.nextDate) > new Date();
+          // const isScheduled = incident.nextDate !== "N/A" && new Date(incident.nextDate) > new Date();
           const isMock = mockIncidents.some((mock) => mock.id === incident.id);
 
           return (
